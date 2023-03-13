@@ -12,9 +12,9 @@
         <li class="nav-item">
             <router-link to="/admin/coupons" class="nav-link text-dark ">優惠券</router-link>       
         </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link text-dark  ">貼文</a>
-        </li> -->
+        <li class="nav-item">
+            <router-link to="/admin/article" class="nav-link text-dark ">文章</router-link>
+        </li>
         <li class="nav-item">
             <a href="#" class="nav-link text-dark" @click.prevent="logout">登出</a>
         </li>

@@ -10,9 +10,9 @@ const router = createRouter({
     },
     {
       path: "/admin",
-      name: "admin",     
+      name: "admin",
       component: () => import("../views/Dashboard.vue"),
-      children : [
+      children: [
         {
           path: "products",
           name: "products",
@@ -28,11 +28,16 @@ const router = createRouter({
           name: "coupons",
           component: () => import("../views/Coupons.vue"),
         },
-      ]
+        {
+          path: "article",
+          name: "article",
+          component: () => import("../views/Article.vue"),
+        },
+      ],
     },
     {
-      path: '/:pathMatch(.*)*',
-      redirect: "/admin"
+      path: "/:pathMatch(.*)*",
+      redirect: "/admin",
     },
   ],
 });

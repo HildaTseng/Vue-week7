@@ -51,7 +51,7 @@
           </tbody>
         </table>        
         <!-- 分頁 -->        
-        <pagination :pages="pages" :get-products="getProducts"></pagination>
+        <pagination :pages="pages" @emitPages="getProducts"></pagination>
 
       </div>
       <!-- 新增/編輯Modal -->
@@ -68,7 +68,7 @@
       
 </template>
 <script>
-    import pagination from "@/components/pagination.vue";
+    import pagination from "@/components/Pagination.vue";
     import productModel from "@/components/product-model.vue";
     import deleteProductModal from "@/components/delete-product-modal.vue";
     
@@ -87,14 +87,17 @@
                 products: [],   //全部產品列表
                 tempProduct: {  //單一產品資料
                     imagesUrl: [],
+                    category_campMode: [],
                 },
                 pages:{},   //存放分頁資料
+                currentPage: 1,
             }
         },
         // 方法集
         methods: {        
             //取得產品資料
             getProducts(page = 1) { //預設值處理
+                this.currentPage = page
                 this.$http.get(`${VITE_URL}/api/${VITE_PATH}/admin/products/?page=${page}`)  //用參數決定顯示在第幾頁
                     .then((res) => { 
                         this.pages =  res.data.pagination;  //將page資料儲存
@@ -116,16 +119,24 @@
                     url = `${VITE_URL}/api/${VITE_PATH}/admin/product/${this.tempProduct.id}`;
                     http = 'put'
                 };
-                //將參數帶入axios
-                this.$http [http](url, { data: this.tempProduct })
-                    .then((res) => {
-                        alert(res.data.message);
-                        productModal.hide();    //新增或編輯資料成功時 關閉model
-                        this.getProducts(); //更新產品列表
-                    })
-                    .catch((err) => {
-                        alert(err.data.message);
-                    });
+
+                if(this.tempProduct.category_campMode.length > 0) {
+                  console.log("OK")
+                  //將參數帶入axios
+                  this.$http [http](url, { data: this.tempProduct })
+                      .then((res) => {
+                          alert(res.data.message);
+                          productModal.hide();    //新增或編輯資料成功時 關閉model
+                          this.getProducts(this.currentPage); //更新產品列表
+                      })
+                      .catch((err) => {
+                          alert(err.data.message);
+                      });
+                }else {
+                  alert("精選分類至少擇一")
+                  productModal.show(); 
+                }
+                
             },
             //開啟model  判斷開啟哪種model
             openModal(isNew, item) {
@@ -133,11 +144,15 @@
                 if (isNew === 'new') {  //新增model
                     this.tempProduct = {    //顯示產品資訊表單
                         imagesUrl: [],
+                        category_campMode: [],
                     };
                     this.isNew = true; //新增資料 執行更新資料函式 post API
                     productModal.show();         //產品model開啟
                 } else if (isNew === 'edit') {  //編輯model
-                    this.tempProduct = { ...item }; //複製資料
+                    this.tempProduct = { //複製資料
+                      ...item,
+                      category_campMode: item.category_campMode || [],
+                    }; 
                     this.isNew = false;   //不是新資料 執行更新資料函式 put API
                     productModal.show();       //產品model開啟
                 } else if (isNew === 'delete') {  //刪除model

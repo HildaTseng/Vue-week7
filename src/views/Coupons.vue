@@ -59,7 +59,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="discount" class="form-label">折扣百分比</label>
-                            <input type="number" class="form-control" id="discount" placeholder="請輸入折扣百分比" v-model="tempCoupon.percent">
+                            <input type="number" class="form-control" id="discount" placeholder="請輸入折扣百分比" v-model="tempCoupon.percent" max="100">
                         </div>
                         <div class="mb-3">
                             <label for="due_date" class="form-label">到期日</label>
