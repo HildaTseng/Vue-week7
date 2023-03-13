@@ -29,19 +29,21 @@ export default {
 </script>
 
 <template>
-  <form class="container mt-5 d-flex justify-content-center">
-    <div class="w-50 ">
-      <h1>請先登入</h1>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email address" v-model="user.username" required>        
+  <div  style="background-color: #f2f2f2;">
+    <form class="container d-flex justify-content-center align-items-center vh-100" >
+      <div class="w-50">
+        <h1>登入</h1>
+        <div class="mb-3">
+          <label for="email" class="form-label">信箱</label>
+          <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="請輸入信箱" v-model="user.username" required>        
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">密碼</label>
+          <input type="password" class="form-control" id="password" placeholder="請輸入密碼"  v-model="user.password" required>
+        </div>      
+        <button type="submit" class="btn bg-success text-dark bg-opacity-25 px-4" @click.prevent="login">登入</button>
       </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Password"  v-model="user.password" required>
-      </div>      
-      <button type="submit" class="btn btn-primary px-4" @click.prevent="login">登入</button>
-    </div>
-  </form>
+    </form>
+  </div>
 </template>
 
